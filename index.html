@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baronesa Confeitaria Artesanal | Pedido Online</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .modal-enter { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #db2777; border-radius: 10px; }
+    </style>
+    
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { primary: '#db2777', 'primary-dark': '#be185d' } } }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 pb-20">
+
+    <header class="bg-white shadow-sm fixed top-0 w-full z-40">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-crown text-primary text-2xl"></i>
+                <div>
+                    <h1 class="text-lg font-bold text-gray-800 leading-tight">Baronesa</h1>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-wider">Confeitaria Artesanal</p>
+                </div>
+            </div>
+            <div id="storeStatus" class="bg-gray-100 px-3 py-1 rounded-full text-xs font-bold"></div>
+        </div>
+    </header>
+
+    <button onclick="openCart()" class="fixed bottom-6 right-6 bg-green-600 text-white w-16 h-16 rounded-full shadow-2xl z-50 flex items-center justify-center hover:scale-110 transition-transform">
+        <i class="fas fa-shopping-cart text-xl"></i>
+        <span id="cartCount" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center hidden border-2 border-white">0</span>
+    </button>
+
+    <section class="mt-16 h-64 bg-cover bg-center relative flex items-center justify-center" style="background-image: url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800&q=80');">
+        <div class="absolute inset-0 bg-black/50"></div>
+        <div class="relative text-center text-white px-4">
+            <h2 class="text-4xl md:text-5xl font-bold mb-2 drop-shadow-lg">Baronesa</h2>
+            <p class="text-pink-200 text-lg italic font-light">"Transformando amor em doces!"</p>
+            <div class="mt-4 w-16 h-1 bg-primary mx-auto rounded"></div>
+        </div>
+    </section>
+
+    <main class="container mx-auto px-4 py-8 max-w-4xl" id="menuContainer">
+        </main>
+
+    <div id="flavorModal" class="fixed inset-0 bg-black/60 z-[60] hidden items-center justify-center p-4 modal-enter">
+        <div class="bg-white rounded-xl w-full max-w-md max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
+            <div class="bg-primary text-white p-4">
+                <h3 class="font-bold text-lg" id="flavorModalTitle">Escolha os Sabores</h3>
+                <p class="text-xs text-pink-100" id="flavorModalSubtitle">Selecione as opções</p>
+            </div>
+            
+            <div class="p-4 overflow-y-auto custom-scroll" id="flavorListContainer">
+                </div>
+
+            <div class="p-4 border-t bg-gray-50 flex justify-end gap-3">
+                <button onclick="closeFlavorModal()" class="px-4 py-2 text-gray-600 font-medium text-sm">Cancelar</button>
+                <button onclick="confirmFlavorSelection()" class="bg-primary text-white px-6 py-2 rounded-lg font-bold hover:bg-primary-dark text-sm">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cartModal" class="fixed inset-0 bg-black/60 z-[60] hidden items-end sm:items-center justify-center modal-enter">
+        <div class="bg-white w-full sm:max-w-lg sm:rounded-2xl h-[90vh] sm:h-auto flex flex-col shadow-2xl">
+            <div class="bg-white border-b p-4 flex justify-between items-center rounded-t-2xl">
+                <h3 class="font-bold text-lg flex items-center gap-2"><i class="fas fa-shopping-bag text-primary"></i> Seu Pedido</h3>
+                <button onclick="closeCart()" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto p-4 bg-gray-50 custom-scroll">
+                <div class="bg-yellow-50 border border-yellow-200 p-3 rounded-lg text-xs text-yellow-800 mb-4 flex gap-2">
+                    <i class="fas fa-clock mt-1"></i>
+                    <div>
+                        <strong>Prazos de Produção:</strong><br>
+                        Doces: Mínimo 1 dia útil.<br>
+                        Bolos: Mínimo 3 dias úteis.<br>
+                        <span class="italic">Para pronta entrega, consulte no WhatsApp.</span>
+                    </div>
+                </div>
+
+                <div id="cartItems" class="space-y-3"></div>
+                
+                <div id="emptyCart" class="text-center py-10 text-gray-400 hidden">
+                    <i class="fas fa-basket-shopping text-4xl mb-2"></i>
+                    <p>Carrinho vazio</p>
+                </div>
+
+                <div id="checkoutForm" class="mt-6 border-t pt-4 hidden">
+                    <h4 class="font-bold text-gray-700 mb-3 text-sm uppercase"><i class="far fa-user mr-1"></i> Seus Dados</h4>
+                    <div class="space-y-3">
+                        <input type="text" id="custName" placeholder="Seu Nome Completo *" class="w-full p-3 border rounded-lg text-sm outline-none focus:border-primary">
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <label class="border p-3 rounded-lg flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-pink-50 has-[:checked]:border-primary transition-all">
+                                <input type="radio" name="delType" value="retirada" checked onchange="toggleAddr()" class="accent-primary">
+                                <span class="text-sm font-medium">Retirada</span>
+                            </label>
+                            <label class="border p-3 rounded-lg flex items-center justify-center gap-2 cursor-pointer has-[:checked]:bg-pink-50 has-[:checked]:border-primary transition-all">
+                                <input type="radio" name="delType" value="entrega" onchange="toggleAddr()" class="accent-primary">
+                                <span class="text-sm font-medium">Entrega</span>
+                            </label>
+                        </div>
+                        <p id="pickupInfo" class="text-xs text-center text-gray-500 bg-gray-100 p-2 rounded">📍 Retirada: Rua São João, 1015 - Tingui</p>
+                        
+                        <input type="text" id="custAddr" placeholder="Endereço Completo (Rua, Número, Bairro) *" class="w-full p-3 border rounded-lg text-sm hidden outline-none focus:border-primary">
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-xs font-bold text-gray-500 ml-1">Data/Hora *</label>
+                                <input type="datetime-local" id="delTime" class="w-full p-2 border rounded-lg text-sm text-gray-600 outline-none focus:border-primary">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-gray-500 ml-1">Pagamento *</label>
+                                <select id="payMethod" class="w-full p-2 border rounded-lg text-sm bg-white outline-none focus:border-primary">
+                                    <option value="" disabled selected>Selecione...</option>
+                                    <option value="Pix">Pix</option>
+                                    <option value="Cartão Crédito">Cartão Crédito</option>
+                                    <option value="Cartão Débito">Cartão Débito</option>
+                                    <option value="Dinheiro">Dinheiro</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <textarea id="custObs" rows="2" placeholder="Observações extras..." class="w-full p-3 border rounded-lg text-sm outline-none focus:border-primary resize-none"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cartFooter" class="p-4 border-t bg-white hidden">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-sm text-gray-500">Total Estimado:</span>
+                    <span id="cartTotal" class="text-2xl font-bold text-primary">R$ 0,00</span>
+                </div>
+                <button onclick="finalizeOrder()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-95">
+                    <i class="fab fa-whatsapp text-xl"></i> Enviar Pedido no WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // === 1. LISTAS DE SABORES ===
+        const flavorsDB = {
+            classicos: [
+                "Brigadeiro Preto", "Brigadeiro Branco", "Dois Amores", "Paçoquinha", 
+                "Chocoball", "Bicho de Pé", "Beijinho", "Beijinho c/ Cravo", 
+                "Prestígio", "Cajuzinho", "Olho de Sogra"
+            ],
+            gourmet: [
+                "Gourmet Preto 50%", "Meio Amargo 100%", "Gourmet Prestígio", "Gourmet Branco",
+                "Churros", "Coco Queimado", "Leite Ninho", "Confete"
+            ],
+            especiais: [
+                "Ninho c/ Nutella", "Rafaello", "Ferrero Rocher", "Strogonoff de Nozes",
+                "Surpresa de Uva Verde", "Creme Brulle", "Ninho com Uva"
+            ],
+            luxo: [
+                "Kinder Bueno", "Sensação", "Café", "Brigadeiro c/ Nutella", 
+                "Brigadeiro Belga", "Maracujá"
+            ],
+            finos: [
+                "Pistache", "Camafeu de Nozes", "Frutas Vermelhas", 
+                "Trufa Limão Siciliano", "Trufa Meio Amargo"
+            ],
+            recheios_brownie: ["Sem Recheio", "Nutella", "Doce de Leite"],
+            cobertura_bombom: ["Ao Leite", "Blend", "Meio Amargo"]
+        };
+
+        // === 2. CARDÁPIO COMPLETO ===
+        const menuItems = [
+            // CAIXAS PRESENTE
+            { id: 101, cat: '🎁 Caixas Presente', name: 'Caixa P (15 Doces)', desc: 'Clássicos e Gourmet.', price: 32.90, maxFlavors: 3, allowedFlavors: ['classicos', 'gourmet'], img: 'https://images.unsplash.com/photo-1599785209796-786432b228bc?w=400' },
+            { id: 102, cat: '🎁 Caixas Presente', name: 'Caixa M (30 Doces)', desc: 'Clássicos e Gourmet.', price: 59.90, maxFlavors: 4, allowedFlavors: ['classicos', 'gourmet'], img: 'https://images.unsplash.com/photo-1582650077873-1cb8dc667232?w=400' },
+            { id: 103, cat: '🎁 Caixas Presente', name: 'Caixa G (49 Doces)', desc: 'Clássicos e Gourmet.', price: 109.90, maxFlavors: 5, allowedFlavors: ['classicos', 'gourmet'], img: 'https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=400' },
+            { id: 105, cat: '🎁 Caixas Premium', name: 'Caixa Premium P (15un)', desc: 'Especiais e Luxo.', price: 42.90, maxFlavors: 3, allowedFlavors: ['especiais', 'luxo'], img: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476d?w=400' },
+            { id: 106, cat: '🎁 Caixas Premium', name: 'Caixa Premium M (30un)', desc: 'Especiais e Luxo.', price: 79.90, maxFlavors: 4, allowedFlavors: ['especiais', 'luxo'], img: 'https://images.unsplash.com/photo-1589119908995-c6837fa14848?w=400' },
+
+            // UNIDADES
+            { id: 301, cat: '🍫 Unidades', name: 'Mini Brownie Trad.', price: 4.00, desc: 'Sem recheio', img: 'https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=400' },
+            { id: 302, cat: '🍫 Unidades', name: 'Mini Brownie Recheado', price: 5.00, maxFlavors: 1, allowedFlavors: ['recheios_brownie'], img: 'https://images.unsplash.com/photo-1614597396930-a69e078882d8?w=400' },
+            { id: 303, cat: '🍫 Unidades', name: 'Bombom de Morango', price: 7.90, maxFlavors: 1, allowedFlavors: ['cobertura_bombom'], img: 'https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=400' },
+
+            // KITS FESTA 25 UN
+            { id: 410, cat: '🎉 Festa (Kit 25un)', name: 'Kit 25 Clássicos', price: 50.00, maxFlavors: 4, allowedFlavors: ['classicos'], img: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400' },
+            { id: 411, cat: '🎉 Festa (Kit 25un)', name: 'Kit 25 Gourmet', price: 55.00, maxFlavors: 4, allowedFlavors: ['gourmet'], img: 'https://images.unsplash.com/photo-1599347335071-7f413a967523?w=400' },
+            { id: 412, cat: '🎉 Festa (Kit 25un)', name: 'Kit 25 Especiais', price: 62.50, maxFlavors: 4, allowedFlavors: ['especiais'], img: 'https://images.unsplash.com/photo-1628606825227-3132646c0780?w=400' },
+            { id: 413, cat: '🎉 Festa (Kit 25un)', name: 'Kit 25 Luxo', price: 70.00, maxFlavors: 4, allowedFlavors: ['luxo'], img: 'https://images.unsplash.com/photo-1589119908995-c6837fa14848?w=400' },
+
+            // CENTOS 100 UN
+            { id: 401, cat: '📦 Centos (100un)', name: 'Cento Clássicos', price: 200.00, maxFlavors: 5, allowedFlavors: ['classicos'], img: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400' },
+            { id: 402, cat: '📦 Centos (100un)', name: 'Cento Gourmet', price: 220.00, maxFlavors: 5, allowedFlavors: ['gourmet'], img: 'https://images.unsplash.com/photo-1599347335071-7f413a967523?w=400' },
+            { id: 403, cat: '📦 Centos (100un)', name: 'Cento Especiais', price: 250.00, maxFlavors: 5, allowedFlavors: ['especiais'], img: 'https://images.unsplash.com/photo-1628606825227-3132646c0780?w=400' },
+            { id: 404, cat: '📦 Centos (100un)', name: 'Cento Luxo', price: 280.00, maxFlavors: 5, allowedFlavors: ['luxo'], img: 'https://images.unsplash.com/photo-1589119908995-c6837fa14848?w=400' }
+        ];
+
+        let cart = [];
+        let currentItemToAdd = null;
+
+        window.onload = () => { renderMenu(); checkStatus(); setMinTime(); };
+
+        // === RENDERIZAÇÃO ===
+        function renderMenu() {
+            const container = document.getElementById('menuContainer');
+            const categories = [...new Set(menuItems.map(i => i.cat))];
+            
+            let html = '';
+            categories.forEach(cat => {
+                const items = menuItems.filter(i => i.cat === cat);
+                html += `
+                    <div class="mb-8">
+                        <h4 class="text-lg font-bold text-gray-800 mb-4 border-l-4 border-primary pl-3">${cat}</h4>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            ${items.map(item => `
+                                <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex gap-3 hover:shadow-md transition">
+                                    <img src="${item.img}" class="w-24 h-24 object-cover rounded-lg bg-gray-200">
+                                    <div class="flex-1 flex flex-col justify-between">
+                                        <div>
+                                            <h5 class="font-bold text-gray-800 leading-tight">${item.name}</h5>
+                                            <p class="text-xs text-gray-500 mt-1">${item.desc || (item.maxFlavors ? `Escolha até ${item.maxFlavors} sabores` : '')}</p>
+                                        </div>
+                                        <div class="flex justify-between items-end mt-2">
+                                            <span class="font-bold text-primary">R$ ${item.price.toFixed(2)}</span>
+                                            <button onclick="initAddToCart(${item.id})" class="bg-pink-100 text-primary hover:bg-primary hover:text-white px-3 py-1 rounded-full text-xs font-bold transition-colors">
+                                                Adicionar
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // === LÓGICA DE SABORES ===
+        function initAddToCart(id) {
+            const item = menuItems.find(i => i.id === id);
+            if (!item.allowedFlavors) { addToCart(item, []); return; }
+            currentItemToAdd = item;
+            openFlavorModal(item);
+        }
+
+        function openFlavorModal(item) {
+            const modal = document.getElementById('flavorModal');
+            document.getElementById('flavorModalTitle').innerText = item.name;
+            document.getElementById('flavorModalSubtitle').innerText = `Selecione até ${item.maxFlavors} sabores.`;
+            
+            let allOptions = [];
+            item.allowedFlavors.forEach(key => {
+                if(item.allowedFlavors.length > 1) allOptions.push({ isTitle: true, text: key.toUpperCase().replace('_', ' ') });
+                flavorsDB[key].forEach(flavor => allOptions.push({ isTitle: false, text: flavor }));
+            });
+
+            document.getElementById('flavorListContainer').innerHTML = allOptions.map(opt => {
+                if (opt.isTitle) return `<h5 class="font-bold text-xs text-primary mt-3 mb-1 uppercase tracking-wide border-b border-pink-100">${opt.text}</h5>`;
+                return `<label class="flex items-center justify-between p-2 rounded hover:bg-pink-50 cursor-pointer border-b border-gray-50"><span class="text-sm text-gray-700">${opt.text}</span><input type="checkbox" value="${opt.text}" class="flavor-checkbox accent-primary w-5 h-5 rounded" onchange="checkMaxFlavors()"></label>`;
+            }).join('');
+
+            modal.classList.remove('hidden'); modal.classList.add('flex');
+        }
+
+        function checkMaxFlavors() {
+            const max = currentItemToAdd.maxFlavors;
+            const checked = document.querySelectorAll('.flavor-checkbox:checked');
+            if (checked.length > max) {
+                event.target.checked = false;
+                alert(`Máximo de ${max} sabores permitidos.`);
+            }
+        }
+
+        function confirmFlavorSelection() {
+            const checked = document.querySelectorAll('.flavor-checkbox:checked');
+            if (checked.length === 0) return alert("Selecione pelo menos 1 sabor.");
+            const selected = Array.from(checked).map(cb => cb.value);
+            addToCart(currentItemToAdd, selected);
+            closeFlavorModal();
+        }
+
+        function closeFlavorModal() {
+            document.getElementById('flavorModal').classList.add('hidden');
+            document.getElementById('flavorModal').classList.remove('flex');
+            currentItemToAdd = null;
+        }
+
+        // === CARRINHO ===
+        function addToCart(item, flavors) {
+            const uniqueId = item.id + '-' + flavors.sort().join('|');
+            const existing = cart.find(i => i.uniqueId === uniqueId);
+            if (existing) existing.qty++;
+            else cart.push({ uniqueId, ...item, flavors, qty: 1 });
+            updateCartUI();
+            
+            // Toast Notification
+            const btn = event.target; // Simples feedback visual
+            const originalText = btn.innerText;
+            btn.innerText = "Adicionado!";
+            btn.classList.add("bg-green-500", "text-white");
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.classList.remove("bg-green-500", "text-white");
+            }, 1000);
+        }
+
+        function updateCartUI() {
+            const totalQty = cart.reduce((acc, i) => acc + i.qty, 0);
+            const totalVal = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+            
+            document.getElementById('cartCount').innerText = totalQty;
+            document.getElementById('cartCount').classList.toggle('hidden', totalQty === 0);
+            document.getElementById('cartTotal').innerText = `R$ ${totalVal.toFixed(2)}`;
+            
+            const container = document.getElementById('cartItems');
+            if (cart.length === 0) {
+                document.getElementById('emptyCart').classList.remove('hidden');
+                document.getElementById('checkoutForm').classList.add('hidden');
+                document.getElementById('cartFooter').classList.add('hidden');
+                container.innerHTML = '';
+            } else {
+                document.getElementById('emptyCart').classList.add('hidden');
+                document.getElementById('checkoutForm').classList.remove('hidden');
+                document.getElementById('cartFooter').classList.remove('hidden');
+                
+                container.innerHTML = cart.map(item => `
+                    <div class="bg-white border p-3 rounded-lg shadow-sm">
+                        <div class="flex justify-between items-start">
+                            <h5 class="font-bold text-sm text-gray-800">${item.name}</h5>
+                            <span class="font-bold text-primary text-sm">R$ ${(item.price * item.qty).toFixed(2)}</span>
+                        </div>
+                        ${item.flavors.length ? `<p class="text-xs text-gray-500 mt-1">Sabores: ${item.flavors.join(', ')}</p>` : ''}
+                        <div class="flex justify-between items-center mt-3">
+                            <button onclick="removeItem('${item.uniqueId}')" class="text-red-400 text-xs hover:text-red-600"><i class="fas fa-trash"></i> Remover</button>
+                            <div class="flex items-center bg-gray-100 rounded-lg">
+                                <button onclick="changeQty('${item.uniqueId}', -1)" class="px-2 py-1 text-gray-600">-</button>
+                                <span class="text-xs font-bold px-2">${item.qty}</span>
+                                <button onclick="changeQty('${item.uniqueId}', 1)" class="px-2 py-1 text-gray-600">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function changeQty(uid, delta) {
+            const item = cart.find(i => i.uniqueId === uid);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) removeItem(uid);
+                else updateCartUI();
+            }
+        }
+
+        function removeItem(uid) { cart = cart.filter(i => i.uniqueId !== uid); updateCartUI(); }
+
+        // === UTILITÁRIOS ===
+        function openCart() { document.getElementById('cartModal').classList.remove('hidden'); document.getElementById('cartModal').classList.add('flex'); }
+        function closeCart() { document.getElementById('cartModal').classList.add('hidden'); document.getElementById('cartModal').classList.remove('flex'); }
+        function toggleAddr() {
+            const isDel = document.querySelector('input[name="delType"]:checked').value === 'entrega';
+            document.getElementById('custAddr').classList.toggle('hidden', !isDel);
+            document.getElementById('pickupInfo').classList.toggle('hidden', isDel);
+        }
+        function checkStatus() {
+            const now = new Date(); const d = now.getDay(); const h = now.getHours();
+            const isOpen = (d === 0 && h >= 10 && h < 12) || (d >= 2 && d <= 6 && h >= 10 && h < 19);
+            document.getElementById('storeStatus').innerHTML = isOpen ? '<span class="text-green-600">● Aberto</span>' : '<span class="text-red-500">● Fechado</span>';
+        }
+        function setMinTime() {
+            const now = new Date(); now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            document.getElementById('delTime').min = now.toISOString().slice(0, 16);
+        }
+
+        // === FINALIZAR ===
+        function finalizeOrder() {
+            const name = document.getElementById('custName').value;
+            const type = document.querySelector('input[name="delType"]:checked').value;
+            const addr = document.getElementById('custAddr').value;
+            const time = document.getElementById('delTime').value;
+            const pay = document.getElementById('payMethod').value;
+            const obs = document.getElementById('custObs').value;
+
+            if (!name || !time || !pay || (type === 'entrega' && !addr)) return alert('Preencha os campos obrigatórios (*)');
+
+            let msg = `Olá Baronesa! Novo pedido via Site:\n\n`;
+            cart.forEach(i => {
+                msg += `${i.qty}x ${i.name}\n`;
+                if(i.flavors.length) msg += `   └ Sabores: ${i.flavors.join(', ')}\n`;
+                msg += `   (R$ ${(i.price * i.qty).toFixed(2)})\n\n`;
+            });
+            const total = cart.reduce((acc, i) => acc + (i.price * i.qty), 0);
+            msg += `*Total: R$ ${total.toFixed(2)}*\n--------------------------\n`;
+            msg += `Cliente: ${name}\nTipo: ${type.toUpperCase()}\n`;
+            if (type === 'entrega') msg += `Endereço: ${addr}\n`;
+            const dateObj = new Date(time);
+            msg += `Data: ${dateObj.toLocaleDateString()} às ${dateObj.toLocaleTimeString().slice(0,5)}\n`;
+            msg += `Pagamento: ${pay}\n`;
+            if (obs) msg += `Obs: ${obs}`;
+
+            const phone = '5541998747724'; 
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
