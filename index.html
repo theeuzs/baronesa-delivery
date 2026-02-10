@@ -252,25 +252,102 @@
 
         // === 2. CARDÁPIO COMPLETO ===
         const menuItems = [
-            // CAIXAS PRESENTE
-            { id: 101, cat: '🎁 Caixas Presente', name: 'Caixa P (15 Doces)', desc: 'Clássicos e Gourmet.', price: 32.90, maxFlavors: 3, allowedFlavors: ['classicos', 'gourmet'], img: 'https://images.unsplash.com/photo-1599785209796-786432b228bc?w=400' },
-            { id: 102, cat: '🎁 Caixas Presente', name: 'Caixa M (30 Doces)', desc: 'Clássicos e Gourmet.', price: 59.90, maxFlavors: 4, allowedFlavors: ['classicos', 'gourmet'], img: 'https://images.unsplash.com/photo-1582650077873-1cb8dc667232?w=400' },
-            { id: 103, cat: '🎁 Caixas Presente', name: 'Caixa G (49 Doces)', desc: 'Clássicos e Gourmet.', price: 109.90, maxFlavors: 5, allowedFlavors: ['classicos', 'gourmet'], img: 'https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=400' },
-            { id: 105, cat: '🎁 Caixas Premium', name: 'Caixa Premium P (15un)', desc: 'Especiais e Luxo.', price: 42.90, maxFlavors: 3, allowedFlavors: ['especiais', 'luxo'], img: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476d?w=400' },
-            { id: 106, cat: '🎁 Caixas Premium', name: 'Caixa Premium M (30un)', desc: 'Especiais e Luxo.', price: 79.90, maxFlavors: 4, allowedFlavors: ['especiais', 'luxo'], img: 'https://images.unsplash.com/photo-1589119908995-c6837fa14848?w=400' },
+            // --- CAIXAS CLÁSSICOS & GOURMET ---
+            { 
+                id: 101, 
+                cat: '🎁 Caixas (Clássicos/Gourmet)', 
+                name: 'Caixa P (15 Doces)', 
+                desc: 'Até 3 sabores Clássicos/Gourmet.', 
+                price: 32.90, 
+                maxFlavors: 3, 
+                allowedFlavors: ['classicos', 'gourmet'], 
+                img: 'https://images.unsplash.com/photo-1599785209796-786432b228bc?w=400' 
+            },
+            { 
+                id: 102, 
+                cat: '🎁 Caixas (Clássicos/Gourmet)', 
+                name: 'Caixa M (30 Doces)', 
+                desc: 'Até 3 sabores Clássicos/Gourmet.', 
+                price: 59.90, 
+                maxFlavors: 3, 
+                allowedFlavors: ['classicos', 'gourmet'], 
+                img: 'https://images.unsplash.com/photo-1582650077873-1cb8dc667232?w=400' 
+            },
+            { 
+                id: 103, 
+                cat: '🎁 Caixas (Clássicos/Gourmet)', 
+                name: 'Caixa G (49 Doces)', 
+                desc: 'Até 5 sabores Clássicos/Gourmet.', 
+                price: 109.90, 
+                maxFlavors: 5, 
+                allowedFlavors: ['classicos', 'gourmet'], 
+                img: 'https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=400' 
+            },
+            { 
+                id: 104, 
+                cat: '🎁 Caixas (Clássicos/Gourmet)', 
+                name: 'Caixa GG (81 Doces)', 
+                desc: 'Até 5 sabores Clássicos/Gourmet.', 
+                price: 169.90, 
+                maxFlavors: 5, 
+                allowedFlavors: ['classicos', 'gourmet'], 
+                img: 'https://images.unsplash.com/photo-1599785209707-a456fc1337bb?w=400' 
+            },
 
-            // UNIDADES
+            // --- CAIXAS PREMIUM (ESPECIAIS/LUXO) ---
+            { 
+                id: 105, 
+                cat: '💎 Caixas Premium (Especiais)', 
+                name: 'Caixa Premium P (15un)', 
+                desc: 'Até 3 sabores (Inclui Especiais/Luxo).', 
+                price: 42.90, 
+                maxFlavors: 3, 
+                allowedFlavors: ['especiais', 'luxo'], 
+                img: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476d?w=400' 
+            },
+            { 
+                id: 106, 
+                cat: '💎 Caixas Premium (Especiais)', 
+                name: 'Caixa Premium M (30un)', 
+                desc: 'Até 3 sabores (Inclui Especiais/Luxo).', 
+                price: 79.90, 
+                maxFlavors: 3, 
+                allowedFlavors: ['especiais', 'luxo'], 
+                img: 'https://images.unsplash.com/photo-1589119908995-c6837fa14848?w=400' 
+            },
+            { 
+                id: 107, 
+                cat: '💎 Caixas Premium (Especiais)', 
+                name: 'Caixa Premium G (49un)', 
+                desc: 'Até 5 sabores (Inclui Especiais/Luxo).', 
+                price: 129.90, 
+                maxFlavors: 5, 
+                allowedFlavors: ['especiais', 'luxo'], 
+                img: 'https://images.unsplash.com/photo-1628606825227-3132646c0780?w=400' 
+            },
+            { 
+                id: 108, 
+                cat: '💎 Caixas Premium (Especiais)', 
+                name: 'Caixa Premium GG (81un)', 
+                desc: 'Até 5 sabores (Inclui Especiais/Luxo).', 
+                price: 219.90, 
+                maxFlavors: 5, 
+                allowedFlavors: ['especiais', 'luxo'], 
+                img: 'https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=400' 
+            },
+
+            // --- UNIDADES ---
             { id: 301, cat: '🍫 Unidades', name: 'Mini Brownie Trad.', price: 4.00, desc: 'Sem recheio', img: 'https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=400' },
             { id: 302, cat: '🍫 Unidades', name: 'Mini Brownie Recheado', price: 5.00, maxFlavors: 1, allowedFlavors: ['recheios_brownie'], img: 'https://images.unsplash.com/photo-1614597396930-a69e078882d8?w=400' },
             { id: 303, cat: '🍫 Unidades', name: 'Bombom de Morango', price: 7.90, maxFlavors: 1, allowedFlavors: ['cobertura_bombom'], img: 'https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=400' },
 
-            // KITS FESTA 25 UN
+            // --- KITS FESTA (25un) ---
             { id: 410, cat: '🎉 Festa (Kit 25un)', name: 'Kit 25 Clássicos', price: 50.00, maxFlavors: 4, allowedFlavors: ['classicos'], img: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400' },
             { id: 411, cat: '🎉 Festa (Kit 25un)', name: 'Kit 25 Gourmet', price: 55.00, maxFlavors: 4, allowedFlavors: ['gourmet'], img: 'https://images.unsplash.com/photo-1599347335071-7f413a967523?w=400' },
             { id: 412, cat: '🎉 Festa (Kit 25un)', name: 'Kit 25 Especiais', price: 62.50, maxFlavors: 4, allowedFlavors: ['especiais'], img: 'https://images.unsplash.com/photo-1628606825227-3132646c0780?w=400' },
             { id: 413, cat: '🎉 Festa (Kit 25un)', name: 'Kit 25 Luxo', price: 70.00, maxFlavors: 4, allowedFlavors: ['luxo'], img: 'https://images.unsplash.com/photo-1589119908995-c6837fa14848?w=400' },
 
-            // CENTOS 100 UN
+            // --- CENTOS (100un) ---
             { id: 401, cat: '📦 Centos (100un)', name: 'Cento Clássicos', price: 200.00, maxFlavors: 5, allowedFlavors: ['classicos'], img: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400' },
             { id: 402, cat: '📦 Centos (100un)', name: 'Cento Gourmet', price: 220.00, maxFlavors: 5, allowedFlavors: ['gourmet'], img: 'https://images.unsplash.com/photo-1599347335071-7f413a967523?w=400' },
             { id: 403, cat: '📦 Centos (100un)', name: 'Cento Especiais', price: 250.00, maxFlavors: 5, allowedFlavors: ['especiais'], img: 'https://images.unsplash.com/photo-1628606825227-3132646c0780?w=400' },
