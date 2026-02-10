@@ -159,31 +159,62 @@
     </div>
 
     <script>
-        // === 1. LISTAS DE SABORES ===
+        // === 1. LISTAS DE SABORES (AGORA COM FOTO E DESCRIÇÃO) ===
+        // Transcrito das imagens do cardápio oficial
         const flavorsDB = {
             classicos: [
-                "Brigadeiro Preto", "Brigadeiro Branco", "Dois Amores", "Paçoquinha", 
-                "Chocoball", "Bicho de Pé", "Beijinho", "Beijinho c/ Cravo", 
-                "Prestígio", "Cajuzinho", "Olho de Sogra"
+                { name: "Brigadeiro Preto", desc: "Cacau 33%, granulado vermicelli Melken.", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=150" },
+                { name: "Brigadeiro Branco", desc: "Leite condensado e creme de leite, granulado branco.", img: "https://images.unsplash.com/photo-1599347335071-7f413a967523?w=150" },
+                { name: "Dois Amores", desc: "Brigadeiro branco e preto, açúcar união premium.", img: "https://images.unsplash.com/photo-1582650077873-1cb8dc667232?w=150" },
+                { name: "Paçoquinha", desc: "Feito com paçoca e enrolado na paçoca moída.", img: "https://images.unsplash.com/photo-1614597396930-a69e078882d8?w=150" },
+                { name: "Chocoball", desc: "Cacau 50% e cereal Choco Power Ball.", img: "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=150" },
+                { name: "Bicho de Pé", desc: "Feito com Nesquik e enrolado no Leite Ninho.", img: "https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=150" },
+                { name: "Beijinho", desc: "Coco em flocos, coco úmido e adoçado.", img: "https://images.unsplash.com/photo-1599785209707-a456fc1337bb?w=150" },
+                { name: "Prestígio", desc: "Cacau 50%, coco flocos úmido e adoçado.", img: "https://images.unsplash.com/photo-1628606825227-3132646c0780?w=150" },
+                { name: "Cajuzinho", desc: "Castanha de caju, açúcar premium e amendoim.", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=150" },
+                { name: "Olho de Sogra", desc: "Coco, essência de baunilha e ameixa seca.", img: "https://images.unsplash.com/photo-1582650077873-1cb8dc667232?w=150" }
             ],
             gourmet: [
-                "Gourmet Preto 50%", "Meio Amargo 100%", "Gourmet Prestígio", "Gourmet Branco",
-                "Churros", "Coco Queimado", "Leite Ninho", "Confete"
+                { name: "Gourmet Preto", desc: "Cacau 50%, granulado Granulê Melken.", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=150" },
+                { name: "Meio Amargo", desc: "Cacau 100%, granulado Granulê Melken.", img: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=150" },
+                { name: "Gourmet Prestígio", desc: "Massa de coco, Granulê Melken e coco.", img: "https://images.unsplash.com/photo-1599347335071-7f413a967523?w=150" },
+                { name: "Gourmet Branco", desc: "Chocolate branco, Granulê Melken Branco.", img: "https://images.unsplash.com/photo-1599785209796-786432b228bc?w=150" },
+                { name: "Churros", desc: "Doce de leite, canela e açúcar.", img: "https://images.unsplash.com/photo-1614597396930-a69e078882d8?w=150" },
+                { name: "Coco Queimado", desc: "Feito com coco queimado artesanal.", img: "https://images.unsplash.com/photo-1582650077873-1cb8dc667232?w=150" },
+                { name: "Leite Ninho", desc: "Leite Ninho puro (sem Nutella).", img: "https://images.unsplash.com/photo-1599785209707-a456fc1337bb?w=150" },
+                { name: "Confete", desc: "Cacau 50% e granulado colorido.", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=150" }
             ],
             especiais: [
-                "Ninho c/ Nutella", "Rafaello", "Ferrero Rocher", "Strogonoff de Nozes",
-                "Surpresa de Uva Verde", "Creme Brulle", "Ninho com Uva"
+                { name: "Ninho c/ Nutella", desc: "Massa Ninho, finalização Nutella Pura.", img: "https://images.unsplash.com/photo-1606313564200-e75d5e30476d?w=150" },
+                { name: "Rafaello", desc: "Massa beijinho, amêndoa inteira, ganache branca.", img: "https://images.unsplash.com/photo-1599785209707-a456fc1337bb?w=150" },
+                { name: "Ferrero Rocher", desc: "Gourmet 50%, avelã inteira, amendoim e Nutella.", img: "https://images.unsplash.com/photo-1628606825227-3132646c0780?w=150" },
+                { name: "Strogonoff Nozes", desc: "Pedaços de nozes, doce de leite e Ninho.", img: "https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=150" },
+                { name: "Surpresa Uva", desc: "Massa Ninho verde, uva verde sem semente.", img: "https://images.unsplash.com/photo-1599347335071-7f413a967523?w=150" },
+                { name: "Creme Brulle", desc: "Gemas, baunilha e açúcar maçaricado.", img: "https://images.unsplash.com/photo-1589119908995-c6837fa14848?w=150" }
             ],
             luxo: [
-                "Kinder Bueno", "Sensação", "Café", "Brigadeiro c/ Nutella", 
-                "Brigadeiro Belga", "Maracujá"
+                { name: "Kinder Bueno", desc: "Massa Ninho/50%, Nutella e Kinder.", img: "https://images.unsplash.com/photo-1589119908995-c6837fa14848?w=150" },
+                { name: "Sensação", desc: "Gourmet 50%, Blossoms morango Callebaut.", img: "https://images.unsplash.com/photo-1628606825227-3132646c0780?w=150" },
+                { name: "Café", desc: "Creme de café e cacau 100%.", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=150" },
+                { name: "Brigadeiro Belga", desc: "Chocolate belga, Flakes ao leite Callebaut.", img: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=150" },
+                { name: "Maracujá", desc: "Maracujá fruta, Ninho e ganache branca.", img: "https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=150" }
             ],
             finos: [
-                "Pistache", "Camafeu de Nozes", "Frutas Vermelhas", 
-                "Trufa Limão Siciliano", "Trufa Meio Amargo"
+                { name: "Pistache", desc: "Creme de pistache e sementes.", img: "https://images.unsplash.com/photo-1614597396930-a69e078882d8?w=150" },
+                { name: "Camafeu Nozes", desc: "Brigadeiro nozes, fondant e noz dourada.", img: "https://images.unsplash.com/photo-1599347335071-7f413a967523?w=150" },
+                { name: "Frutas Vermelhas", desc: "Creme frutas vermelhas e Crispearls Ruby.", img: "https://images.unsplash.com/photo-1628606825227-3132646c0780?w=150" }
             ],
-            recheios_brownie: ["Sem Recheio", "Nutella", "Doce de Leite"],
-            cobertura_bombom: ["Ao Leite", "Blend", "Meio Amargo"]
+            // Para Brownies e Bombons (Sem descrição detalhada necessária, apenas opções)
+            recheios_brownie: [
+                { name: "Sem Recheio", desc: "Tradicional", img: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=150" },
+                { name: "Nutella", desc: "Recheio cremoso", img: "https://images.unsplash.com/photo-1614597396930-a69e078882d8?w=150" },
+                { name: "Doce de Leite", desc: "Recheio caseiro", img: "https://images.unsplash.com/photo-1614597396930-a69e078882d8?w=150" }
+            ],
+            cobertura_bombom: [
+                { name: "Ao Leite", desc: "Chocolate Nobre", img: "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=150" },
+                { name: "Meio Amargo", desc: "Chocolate Nobre", img: "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=150" },
+                { name: "Blend", desc: "Mistura Leite/Amargo", img: "https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=150" }
+            ]
         };
 
         // === 2. CARDÁPIO COMPLETO ===
@@ -218,7 +249,7 @@
 
         window.onload = () => { renderMenu(); checkStatus(); setMinTime(); };
 
-        // === RENDERIZAÇÃO ===
+        // === RENDERIZAÇÃO DO MENU ===
         function renderMenu() {
             const container = document.getElementById('menuContainer');
             const categories = [...new Set(menuItems.map(i => i.cat))];
@@ -254,7 +285,7 @@
             container.innerHTML = html;
         }
 
-        // === LÓGICA DE SABORES ===
+        // === LÓGICA DE SABORES (MODAL ATUALIZADO COM FOTOS) ===
         function initAddToCart(id) {
             const item = menuItems.find(i => i.id === id);
             if (!item.allowedFlavors) { addToCart(item, []); return; }
@@ -267,17 +298,32 @@
             document.getElementById('flavorModalTitle').innerText = item.name;
             document.getElementById('flavorModalSubtitle').innerText = `Selecione até ${item.maxFlavors} sabores.`;
             
-            let allOptions = [];
+            let html = '';
+            
+            // Renderiza as categorias permitidas (Ex: Clássicos + Gourmet)
             item.allowedFlavors.forEach(key => {
-                if(item.allowedFlavors.length > 1) allOptions.push({ isTitle: true, text: key.toUpperCase().replace('_', ' ') });
-                flavorsDB[key].forEach(flavor => allOptions.push({ isTitle: false, text: flavor }));
+                // Título da Categoria
+                if(item.allowedFlavors.length > 1) {
+                    html += `<h5 class="font-bold text-sm text-primary mt-4 mb-2 uppercase tracking-wide border-b border-pink-100 pb-1 sticky top-0 bg-white z-10">${key.toUpperCase().replace('_', ' ')}</h5>`;
+                }
+
+                // Lista de Itens com FOTO e DESCRIÇÃO
+                flavorsDB[key].forEach(flavor => {
+                    html += `
+                    <label class="flex items-start p-2 rounded-lg hover:bg-pink-50 cursor-pointer border-b border-gray-50 gap-3 transition-colors">
+                        <img src="${flavor.img}" class="w-12 h-12 rounded object-cover bg-gray-200 flex-shrink-0">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex justify-between items-start">
+                                <span class="text-sm font-bold text-gray-800 leading-tight">${flavor.name}</span>
+                                <input type="checkbox" value="${flavor.name}" class="flavor-checkbox accent-primary w-5 h-5 rounded ml-2" onchange="checkMaxFlavors()">
+                            </div>
+                            <p class="text-[10px] text-gray-500 leading-tight mt-1">${flavor.desc}</p>
+                        </div>
+                    </label>`;
+                });
             });
 
-            document.getElementById('flavorListContainer').innerHTML = allOptions.map(opt => {
-                if (opt.isTitle) return `<h5 class="font-bold text-xs text-primary mt-3 mb-1 uppercase tracking-wide border-b border-pink-100">${opt.text}</h5>`;
-                return `<label class="flex items-center justify-between p-2 rounded hover:bg-pink-50 cursor-pointer border-b border-gray-50"><span class="text-sm text-gray-700">${opt.text}</span><input type="checkbox" value="${opt.text}" class="flavor-checkbox accent-primary w-5 h-5 rounded" onchange="checkMaxFlavors()"></label>`;
-            }).join('');
-
+            document.getElementById('flavorListContainer').innerHTML = html;
             modal.classList.remove('hidden'); modal.classList.add('flex');
         }
 
@@ -286,7 +332,7 @@
             const checked = document.querySelectorAll('.flavor-checkbox:checked');
             if (checked.length > max) {
                 event.target.checked = false;
-                alert(`Máximo de ${max} sabores permitidos.`);
+                alert(`Máximo de ${max} sabores permitidos para este item.`);
             }
         }
 
@@ -313,14 +359,16 @@
             updateCartUI();
             
             // Toast Notification
-            const btn = event.target;
-            const originalText = btn.innerText;
-            btn.innerText = "Adicionado!";
-            btn.classList.add("bg-green-500", "text-white");
-            setTimeout(() => {
-                btn.innerText = originalText;
-                btn.classList.remove("bg-green-500", "text-white");
-            }, 1000);
+            const btn = event.target.closest('button');
+            if(btn) {
+                const originalText = btn.innerText;
+                btn.innerText = "Adicionado!";
+                btn.classList.add("bg-green-500", "text-white");
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.classList.remove("bg-green-500", "text-white");
+                }, 1000);
+            }
         }
 
         function updateCartUI() {
@@ -345,16 +393,19 @@
                 container.innerHTML = cart.map(item => `
                     <div class="bg-white border p-3 rounded-lg shadow-sm">
                         <div class="flex justify-between items-start">
-                            <h5 class="font-bold text-sm text-gray-800">${item.name}</h5>
-                            <span class="font-bold text-primary text-sm">R$ ${(item.price * item.qty).toFixed(2)}</span>
+                            <div>
+                                <h5 class="font-bold text-sm text-gray-800">${item.name}</h5>
+                                ${item.flavors.length ? `<p class="text-xs text-gray-500 mt-1 line-clamp-2">Sabores: ${item.flavors.join(', ')}</p>` : ''}
+                            </div>
+                            <span class="font-bold text-primary text-sm whitespace-nowrap ml-2">R$ ${(item.price * item.qty).toFixed(2)}</span>
                         </div>
-                        ${item.flavors.length ? `<p class="text-xs text-gray-500 mt-1">Sabores: ${item.flavors.join(', ')}</p>` : ''}
+                        
                         <div class="flex justify-between items-center mt-3">
-                            <button onclick="removeItem('${item.uniqueId}')" class="text-red-400 text-xs hover:text-red-600"><i class="fas fa-trash"></i> Remover</button>
+                            <button onclick="removeItem('${item.uniqueId}')" class="text-red-400 text-xs hover:text-red-600 font-medium flex items-center"><i class="fas fa-trash mr-1"></i> Remover</button>
                             <div class="flex items-center bg-gray-100 rounded-lg">
-                                <button onclick="changeQty('${item.uniqueId}', -1)" class="px-2 py-1 text-gray-600">-</button>
-                                <span class="text-xs font-bold px-2">${item.qty}</span>
-                                <button onclick="changeQty('${item.uniqueId}', 1)" class="px-2 py-1 text-gray-600">+</button>
+                                <button onclick="changeQty('${item.uniqueId}', -1)" class="px-3 py-1 text-gray-600 font-bold hover:bg-gray-200 rounded-l-lg">-</button>
+                                <span class="text-xs font-bold px-2 min-w-[20px] text-center">${item.qty}</span>
+                                <button onclick="changeQty('${item.uniqueId}', 1)" class="px-3 py-1 text-gray-600 font-bold hover:bg-gray-200 rounded-r-lg">+</button>
                             </div>
                         </div>
                     </div>
@@ -417,7 +468,7 @@
             msg += `Pagamento: ${pay}\n`;
             if (obs) msg += `Obs: ${obs}`;
 
-            const phone = '5541996272846'; 
+            const phone = '5541998747724'; 
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
         }
     </script>
