@@ -29,9 +29,10 @@
 <body class="bg-gray-50 pb-20">
 
     <header class="bg-white shadow-sm fixed top-0 w-full z-40">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <i class="fas fa-crown text-primary text-2xl"></i>
+        <div class="container mx-auto px-4 py-2 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <img src="img/logo.png" alt="Logo Baronesa" class="h-12 w-auto object-contain">
+                
                 <div>
                     <h1 class="text-lg font-bold text-gray-800 leading-tight">Baronesa</h1>
                     <p class="text-[10px] text-gray-500 uppercase tracking-wider">Confeitaria Artesanal</p>
@@ -308,7 +309,7 @@
             updateCartUI();
             
             // Toast Notification
-            const btn = event.target; // Simples feedback visual
+            const btn = event.target;
             const originalText = btn.innerText;
             btn.innerText = "Adicionado!";
             btn.classList.add("bg-green-500", "text-white");
@@ -412,7 +413,7 @@
             msg += `Pagamento: ${pay}\n`;
             if (obs) msg += `Obs: ${obs}`;
 
-            const phone = '5541998747724'; 
+            const phone = '5541996272846'; 
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
         }
     </script>
